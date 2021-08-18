@@ -1,30 +1,69 @@
-app.post('/posts/create', async (req: Request, res: Response) => {
-    try {
-       let message = "Success!"
- 
-       const { photo, description, type } = req.body
- 
-       const token: string = req.headers.authorization as string
- 
-       const tokenData: authenticationData = getTokenData(token)
- 
-       const id: string = generateId()
- 
-       await connection("labook_posts")
-          .insert({
-             id,
-             photo,
-             description,
-             type,
-             author_id: tokenData.id
-          })
- 
-       res.status(201).send({ message })
- 
-    } catch (error) {
-       let message = error.sqlMessage || error.message
-       res.statusCode = 400
- 
-       res.send({ message })
+import { PostDatabase } from "../data/postDataBase";
+import { generateId } from "../services/idGenerator";
+import { POST_TYPES } from "../model/post";
+
+
+
+const postDatabase = new PostDatabase()
+
+
+
+export class PostBusiness {
+    [x: string]: any;
+    
+    createpostBusiness = async (
+        photo: string,
+        description: string,
+        type: POST_TYPES,
+        authorId: string
+    ) => {
+
+        if (
+            !photo ||
+            !description ||
+            !type ||
+            !authorId
+        ) {
+            throw new Error("Preencha todos os campos")
+        }
+
+        const id: string = generateId()
+
+        let dayjs = require('dayjs')
+        const createdAt: Date = dayjs(Date.now()).format('YYYY/MM/DD')
+
+        await postDatabase.createPost(
+            {
+                id,
+                photo,
+                description,
+                type,
+                createdAt,
+                authorId
+            }
+        )
     }
- })
+    
+    GetPostByIdBusiness = async (
+        id: string
+    ) => {
+
+        const result = await postDatabase.getPostbyId(id)
+
+        if (!result) {
+            throw new Error("Post não encontrado")
+        }
+
+        const postInfo = {
+            id: result.id,
+            photo: result.photo,
+            description: result.description,
+            type: result.type,
+            createdAt: result.created_at,
+            authorId: result.author_id
+        }
+
+        return postInfo
+    }
+
+}
