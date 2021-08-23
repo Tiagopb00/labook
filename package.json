@@ -4,11 +4,10 @@
    "description": "",
    "main": "index.js",
    "engines": {
-     "node": "14.16.0"
+     "node": "14.15.5"
   },
    "scripts": {
       "start": "tsc && node ./build/index.js",
-      "migrations": "tsc && node ./build/migrations.js",
       "dev": "clear && ts-node-dev ./src/index.ts",
       "test": "jest"
    },
