@@ -1,10 +1,6 @@
-import { Request, Response } from "express";
-import { getTokenData } from "../services/authenticator";
-import { authenticationData } from "../model/authentication";
 import { PostBusiness } from "../business/PostBusiness";
-//import { PostDatabase  } from "../data/postDataBase";
+import { Request, Response } from "express";
 
-//const postDatabase = new PostDatabase()
 const postBusiness = new PostBusiness()
 
 export class PostController {

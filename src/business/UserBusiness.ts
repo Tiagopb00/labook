@@ -1,8 +1,8 @@
 import { UserDatabase } from "../data/UserDatabase"
 import { generateToken } from "../services/authenticator"
+import { HashManager } from "../services/HashManager";
 import { generateId } from "../services/idGenerator"
 import { user } from "../model/user";
-import { HashManager } from "../services/HashManager";
 
 
 
