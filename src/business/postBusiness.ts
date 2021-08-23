@@ -1,55 +1,50 @@
 import { PostDatabase } from "../data/postDataBase";
 import { generateId } from "../services/idGenerator";
-import { POST_TYPES } from "../model/post";
-
-
+import { POST_TYPES, postDTO } from "../model/post";
+import { authenticationData } from "../model/authentication";
+import { getTokenData } from "../services/authenticator";
 
 const postDatabase = new PostDatabase()
 
-
-
 export class PostBusiness {
-    [x: string]: any;
-    
+    [id: string]: any;
+
     createpostBusiness = async (
         photo: string,
         description: string,
         type: POST_TYPES,
-        authorId: string
+        token:string
     ) => {
 
         if (
             !photo ||
             !description ||
             !type ||
-            !authorId
+            !token
         ) {
             throw new Error("Preencha todos os campos")
         }
-
+      
+        const tokenData: authenticationData = getTokenData(token)
+  
         const id: string = generateId()
 
-        let dayjs = require('dayjs')
-        const createdAt: Date = dayjs(Date.now()).format('YYYY/MM/DD')
+     const newPost: postDTO = { id, photo, description, type, author_id: tokenData.id }
 
+        
         await postDatabase.createPost(
-            {
-                id,
-                photo,
-                description,
-                type,
-                createdAt,
-                authorId
-            }
+            
+              newPost
+            
         )
     }
-    
+
     GetPostByIdBusiness = async (
-        id: string
-    ) => {
-
+        id: string, token:string
+    ):Promise<any>=> {
+        const tokenData: authenticationData = getTokenData(token)
         const result = await postDatabase.getPostbyId(id)
-
+        
         if (!result) {
             throw new Error("Post não encontrado")
         }
@@ -60,7 +55,7 @@ export class PostBusiness {
             description: result.description,
             type: result.type,
             createdAt: result.created_at,
-            authorId: result.author_id
+            author_id: result.author_id
         }
 
         return postInfo
