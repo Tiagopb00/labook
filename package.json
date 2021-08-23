@@ -7,7 +7,7 @@
      "node": "14.15.5"
   },
    "scripts": {
-      "start": "tsc && node ./build/index.js",
+      "start": "node server.js",
       "dev": "clear && ts-node-dev ./src/index.ts",
       "test": "jest"
    },
