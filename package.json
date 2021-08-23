@@ -10,6 +10,7 @@
       "migrations": "tsc && node ./build/migrations.js",
       "start": "tsc && node ./build/index.js",
       "dev": "clear && ts-node-dev ./src/index.ts",
+      "build": "tsc",
       "test": "jest"
    },
    "keywords": [],
