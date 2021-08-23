@@ -8,16 +8,13 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-app.use('/users', userRouter)
-app.use('/posts', postRouter)
-
-app.listen(3003, () => {
-  console.log("Server is running at http://localhost:3003");
+const PORT = process.env.PORT || 3003;
+app.listen(PORT, () => {
+    console.log(`App is running on port ${ PORT }`);
 });
 
-
-
-
+app.use('/users', userRouter)
+app.use('/posts', postRouter)
 
 
 
