@@ -1,5 +1,5 @@
-import { PostController } from "../controllers/PostController";
 import express from "express";
+import { PostController } from "../controllers/PostController";
 
 
 

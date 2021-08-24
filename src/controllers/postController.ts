@@ -1,5 +1,5 @@
-import { PostBusiness } from "../business/PostBusiness";
 import { Request, Response } from "express";
+import { PostBusiness } from "../business/PostBusiness";
 
 const postBusiness = new PostBusiness()
 
